@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="191" height="40" viewBox="0 0 191 40">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#23ae24"/>
+      <stop offset="1" stop-color="#179318"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_23153" data-name="Group 23153" transform="translate(-251 -264)">
+    <g id="Group_23151" data-name="Group 23151" transform="translate(-106 2910)">
+      <ellipse id="Ellipse_1" data-name="Ellipse 1" cx="20" cy="20" rx="20" ry="20" transform="translate(357 -2646)" fill="url(#linear-gradient)"/>
+      <g id="Group_1" data-name="Group 1" transform="translate(364.677 -2639.157)">
+        <path id="Path_1" data-name="Path 1" d="M0,6.091,10.532,0V8.426L8.53,9.6c.666.447,1.35.775,2,1.2V23.737c-.594.115-9.829.123-10.535.008Zm7.006,8.2-3.47,2v3.989a20.512,20.512,0,0,0,3.47-.018Zm-.013-4.074A25.063,25.063,0,0,0,6.936,6.16l-3.4,1.964V12.21l3.451-1.993" transform="translate(0)" fill="#fff"/>
+        <path id="Path_2" data-name="Path 2" d="M138.135.057l10.526,6.088v5.618l-2.093,1.22,2.1,1.22V23.82h-3.449V16.355l-3.59-2.07v9.544h-3.489Zm7.041,12.2V8.215l-3.515-2.029v4.045l3.515,2.026" transform="translate(-124.018 -0.051)" fill="#fff"/>
+      </g>
+    </g>
+    <text id="Badami_Realty" data-name="Badami Realty" transform="translate(306 291)" fill="#1e1e1e" font-size="20" font-family="Inter-Medium, Inter" font-weight="500"><tspan x="0" y="0">Badami Realty</tspan></text>
+  </g>
+</svg>

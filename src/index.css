@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+@layer utilities {
+  .loader {
+    border-width: 2px;
+    border-style: solid;
+    border-color: gray transparent transparent transparent;
+  }
+}
+
+.btn-gradient-green {
+  background: transparent linear-gradient(180deg, #23ae24 0%, #179318 100%) 0%
+    0% no-repeat padding-box;
+}
+
+.auth-bg {
+  background-image: url("../src/assets/auth-bg.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}
+
+.action-list-btn {
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  margin-right: -10px;
+}
+
+.action-list-btn:hover .action-list {
+  display: flex;
+}
+
+.action-list-btn .action-list .action-list-item:hover path,
+.action-list-btn .action-list .action-list-item:hover h2 {
+  stroke: white;
+  color: white;
+}
+
+.group:hover .item-active svg path {
+  stroke: white;
+}
+
+.group:hover:has(.item-active) .group-hover\:stroke-custom-green {
+  stroke: white;
+}
+
+.status-bg {
+  border-color: rgba(231, 76, 60, 0.5);
+  background: rgb(252, 235, 234);
+  color: rgb(231, 76, 60);
+}
+
+.status-vacant-bg {
+  background: #e9f7e9;
+  color: #23ae24;
+}
+
+.calc-height {
+  height: calc(100vh - 76px);
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 13px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a0a0a0;
+  border-radius: 100vh;
+  border: 2px solid #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(107, 107, 107);
+}
+
+.add-flat-modal {
+  height: calc(100vh - 307px);
+  overflow-y: auto;
+}
+
+.react-date-picker__wrapper {
+  border: none;
+}
+
+/* .table-height {
+  max-height: calc(100vh - 505px);
+  overflow-y: auto;
+} */
+
+.table-height {
+  overflow-x: auto;
+}
+
+.wrapper-height {
+  max-height: calc(100vh - 69.4px);
+  overflow-y: auto;
+}
+
+.wrapper-width {
+  width: calc(100vw - 86px);
+}
+.tab-width {
+  width: calc(100vw - 352px);
+  overflow-x: auto;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+.loader {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+body:has(.auth-bg) .wrapper-width {
+  width: 100%;
+}
+
+.wrapper-height {
+  max-height: calc(100vh - 69.4px);
+  overflow-y: auto;
+}
+
+.wrapper-width {
+  width: calc(100vw - 86px);
+}
+/* When the "Cash" radio is checked, hide the amount-type */
+.add-flat-modal:has(input[type="radio"][value="cash"]:checked) .amount-type {
+  display: none;
+}
+
+.flip-x {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+  filter: FlipV;
+  -ms-filter: "FlipV";
+}
+
+/* Remove default select arrow */
+.custom-select {
+  position: relative;
+}
+.custom-select:has(.select-m)::after {
+  top: 35px;
+}
+.custom-select:has(.select-sm)::after {
+  top: 19px;
+}
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+}
+
+/* custom select css */
+.react-select__control {
+  height: 47px;
+  border-color: #1e1e1e1a !important;
+  border-radius: 0.5rem !important;
+  box-shadow: none !important;
+  font-size: 14px;
+}
+
+.react-select__control--is-focused {
+  border-color: #179318 !important;
+}
+.react-select__control--menu-is-open {
+  border-color: #179318 !important;
+}
+.react-select__control--is-focused svg {
+  fill: #179318;
+}
+.react-select__control--menu-is-open svg {
+  fill: #179318;
+}
+
+
+.ag-select-list {
+  max-height: 150px !important;
+}
+
+.ag-active-item {
+  background-color: #179318 !important;
+  color: #e9f7e9;
+}
+
+.ag-picker-field-wrapper {
+  border-color: #179318 !important;
+  border: 0px !important;
+}
+
+.ag-ltr .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+  border-color: #179318 !important;
+}
+
+.ag-theme-alpine, 
+.ag-theme-alpine-dark, 
+.ag-theme-alpine-auto-dark {
+    --ag-input-focus-border-color: transparent !important; /* Border color when focused */
+}
+
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23000" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 18px;
+}
+
+.react-tel-input .form-control {
+  width: 100%;
+  height: 46px;
+  border-color: #1E1E1E1A;
+
+}
+
+.react-tel-input .flag-dropdown {
+  border-color: #1E1E1E1A;
+}
+
+.react-tel-input:hover .flag-dropdown {
+  border-color: #23ae24; /* Same hover color */
+}
+
+.react-tel-input  {
+  margin: 10px 0px 0px 0px;
+  border: #1E1E1E1A;
+  border-radius: 0.5rem !important;
+}
