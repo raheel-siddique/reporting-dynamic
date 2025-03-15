@@ -20,7 +20,7 @@ const authSlice = createSlice({
     },
     setRoles: (state, action) => {
       state.roles = action.payload;
-      state.hasManagementAccess = action.payload.includes("Admin");
+      state.hasManagementAccess = action.payload.includes("Admin") || action.payload.includes("User");
     },
     clearAuth: (state) => {
     localStorage.removeItem('authToken');

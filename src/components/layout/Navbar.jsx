@@ -1,13 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ReusableButton from "../form-elements/button/ReusableButton";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
 import {
-  ellipse,
-  notificationIcon,
-  optionIcon,
+  notificationIcon
 } from "../../utils/constant/image";
-import SearchField from "../search/Searchfield";
 
 const LOCAL_STORAGE_KEY = "chatHistory";
 

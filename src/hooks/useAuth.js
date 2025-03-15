@@ -1,15 +1,14 @@
+import { useMutation } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { signIn } from "../api/authService";
 import {
-  setAuthentication,
-  setUser,
   clearAuth,
+  setAuthentication,
   setRoles,
+  setUser,
 } from "../features/auth/authSlice";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -18,12 +17,16 @@ export const useAuth = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: signIn,
     onSuccess: (data) => {
-      localStorage.setItem("authToken", data.token);
-      const decodedToken = jwtDecode(data.token);
+      console.log("data::", data)
+      localStorage.setItem("authToken", data.access_token);
+      // const decodedToken = jwtDecode(data.access_token);
 
-      let filteredRoles = decodedToken?.role.filter((roles) => {
-        return !roles.includes("tmp1");
-      });
+      // console.log("decodedToken::", decodedToken)
+      // let filteredRoles = decodedToken?.role.filter((roles) => {
+      //   return !roles.includes("tmp1");
+      // });
+      
+      let filteredRoles=['Admin', "User"]
       dispatch(setRoles(filteredRoles));
       dispatch(setAuthentication(true));
       dispatch(setUser(data));

@@ -1,32 +1,32 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import Layout from "./components/layout/Layout";
-import Login from "./pages/auth/sign-in/Login";
-import Signup from "./pages/auth/sign-in/Signup";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import store from "./store/store";
+import Layout from "./components/layout/Layout";
 import NotFound from "./pages/404/NotFound";
+import Login from "./pages/auth/sign-in/Login";
+import Signup from "./pages/auth/sign-in/Signup";
 import Location from "./pages/location/Location";
+import store from "./store/store";
 // import Dashboard from "./pages/dashboard/Dashboard";
-import Tenants from "./pages/tenants/Tenants";
-import AddNewLease from "./pages/tenants/AddNewLease";
 import AddNewCheque from "./pages/tenants/AddNewCheque";
+import AddNewLease from "./pages/tenants/AddNewLease";
+import Tenants from "./pages/tenants/Tenants";
 // import ProtectedRoute from "./components/auth/ProtectedRoute";
-import Lease from "./pages/activity/Lease";
+import { useEffect } from "react";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import DetailedView from "./components/dashboard/adminDashboard/DetailedView";
 import Cheque from "./pages/activity/Cheque";
+import Lease from "./pages/activity/Lease";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Expenses from "./pages/expenses/Expenses";
+import Parameters from "./pages/parameters/Parameters";
+import Receipts from "./pages/receipts/Receipts";
 import Reporting from "./pages/reporting/Reporting";
+import AddNewTenant from "./pages/tenants/AddNewTenants";
 import TenantDetails from "./pages/tenants/TenantDetails";
 import UserManagement from "./pages/user/UserManagement";
-import AddNewTenant from "./pages/tenants/AddNewTenants";
-import Parameters from "./pages/parameters/Parameters";
-import Expenses from "./pages/expenses/Expenses";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
-import Dashboard from "./pages/dashboard/Dashboard";
-import { useEffect } from "react";
-import DetailedView from "./components/dashboard/adminDashboard/DetailedView";
-import Receipts from "./pages/receipts/Receipts";
 import VacantDetails from "./pages/vacants/VacantsDetails";
 
 // Create a QueryClient with default options
@@ -141,7 +141,7 @@ function App() {
               <Route
                 path="/users"
                 element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
+                  <ProtectedRoute>
                     <UserManagement />
                   </ProtectedRoute>
                 }

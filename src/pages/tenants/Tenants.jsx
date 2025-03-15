@@ -1,22 +1,12 @@
 // import ReusableModal from "../../components/modal/ReusableModal";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import TenanstListings from "../../components/tenants/TenanstListings";
-import { Field } from "formik";
-import { useEffect, useState } from "react";
 // import ReusableModal from "../../components/modal/ReusableModal";
-import { useMyLocations } from "../../hooks/useMyLocations";
-import LocationListings from "../../components/locations/LocationsListing";
-import LocationsFooter from "../../components/locations/LocationsFooter";
-import LocationsBreadcrumb from "../../components/locations/LocationsBreadcrumb";
-import BuildingsListing from "../../components/buildings/BuildingsListing";
-import AddBuildingBtn from "../../components/buildings/AddBuildingBtn";
-import FlatListing from "../../components/flat/FlatListing";
-import ReusableInput from "../../components/form-elements/input/ReusableInput";
-import { ErrorMessage, Form, Formik } from "formik";
-import * as Yup from "yup";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import AddBuildingModal from "../../components/locations/AddBuildingModal";
+import BuildingsListing from "../../components/buildings/BuildingsListing";
+import { useMyLocations } from "../../hooks/useMyLocations";
 
 const Tenants = () => {
   // const filters = [{ name: "Current" }, { name: "History" }];
@@ -37,106 +27,58 @@ const Tenants = () => {
   const { locationsData, isLocationsLoading, deleteLocationMutation } =
     useMyLocations(page, pageSize);
 
-  // console.log("locationsData:::", locationsData);
-  const [activeLocation, setActiveLocation] = useState(
-    locationId || localStorage.getItem("activeLocation") || null
-  );
-  const [activeBuilding, setActiveBuilding] = useState(
-    buildingId || localStorage.getItem("activeBuilding") || null
-  );
+    const [activeLocation, setActiveLocation] = useState(() => {
+      return locationId || JSON.parse(localStorage.getItem("activeLocation")) || null;
+    });
+    
+    const [activeBuilding, setActiveBuilding] = useState(() => {
+      return buildingId || JSON.parse(localStorage.getItem("activeBuilding")) || null;
+    });
+    
+    
 
   const [buildings, setBuildings] = useState([]);
 
   useEffect(() => {
     if (locationsData && locationsData.length > 0) {
+      const savedLocation = JSON.parse(localStorage.getItem("activeLocation"));
       const initialLocation =
-        locationsData.find((location) => location.id == activeLocation) ||
+        locationsData.find((location) => location.id == savedLocation) ||
         locationsData[0];
-        
-
+  
+      setActiveLocation(initialLocation.id);
       setBuildings(initialLocation.buildings || []);
-      console.log({initialLocation, activeLocation, locationId})
-
-      if (!locationId) {
-        setActiveLocation(initialLocation.id);
-      }
     }
   }, [locationsData]);
-
+  
   useEffect(() => {
-    if (buildings && buildings.length) {
+    if (buildings && buildings.length > 0) {
+      const savedBuilding = JSON.parse(localStorage.getItem("activeBuilding"));
       const initialBuilding =
-        buildings.find((building) => building.id === activeBuilding) ||
+        buildings.find((building) => building.id === savedBuilding) ||
         buildings[0];
-
-        console.log({initialBuilding, buildingId, activeBuilding})
-
-      setActiveBuilding(initialBuilding?.id || null);
+  
+      setActiveBuilding(initialBuilding.id);
     }
   }, [buildings]);
-
-  useEffect(() => {
-    if (!locationId && activeLocation) {
-      localStorage.setItem("activeLocation", activeLocation);
-    }
-  }, [activeLocation]);
-
-  useEffect(() => {
-    if (!buildingId && activeBuilding) {
-      localStorage.setItem("activeBuilding", activeBuilding);
-    }
-  }, [activeBuilding]);
-
+  
+  
   const handleLocationClick = (location) => {
-    // console.log("locationsss:::", location);
     setActiveLocation(location.id);
     setBuildings(location.buildings || []);
+    localStorage.setItem("activeLocation", JSON.stringify(location.id));
   };
-
+  
   const handleBuildingClick = (building) => {
-    console.log("building", building.id);
     setActiveBuilding(building.id);
+    localStorage.setItem("activeBuilding", JSON.stringify(building.id));
   };
+  
 
   return (
     <>
       <div className="flex h-full">
-        {/* <div className="w-[315px] h-full flex-col flex justify-between bg-white border-r-[1px] border-br-border">
-          <div className="flex flex-col gap-3 scroll calc-height py-[20px] px-[15px] pr-[10px]">
-            {isLocationsLoading ? (
-              Array.from({ length: 10 }).map((_, index) => (
-                <Skeleton key={index} height={30} />
-              ))
-            ) : locationsData && locationsData.length > 0 ? (
-              <select
-                className="border rounded px-3 py-2 w-full"
-                // value={activeLocation?.id || ""}
-                onChange={(e) => {
-                  const selectedLocation = locationsData.find(
-                    (location) => location.id === Number(e.target.value)
-                  );
-                  handleLocationClick(selectedLocation);
-                }}
-              >
-                <option value="" disabled>
-                  Select a Location
-                </option>
-                {locationsData.map((location) => (
-                  <option key={location.id} value={location.id}>
-                    {location.name}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <p>No Location Found</p>
-            )}
-          </div>
-        </div> */}
         <div className="px-5 py-0 w-full wrapper-height">
-          {/* <LocationsBreadcrumb
-            title1={"Tenants"}
-            singleLocation={singleLocation}
-          /> */}
           <div className="my-4 flex gap-4">
             {isLocationsLoading ? (
               Array.from({ length: 10 }).map((_, index) => (
