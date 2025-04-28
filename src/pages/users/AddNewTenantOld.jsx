@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { useMemo } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import React, { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Link, useParams } from "react-router-dom";
+import * as Yup from "yup";
 import ReusableInput from "../../components/form-elements/input/ReusableInput";
-import LocationsBreadcrumb from "../../components/locations/LocationsBreadcrumb";
-import { useMyLocations } from "../../hooks/useMyLocations";
 import { useFlats } from "../../hooks/useFlats";
+import { useMyLocations } from "../../hooks/useMyLocations";
 // import AddTenantTab from "../../components/tenants/add-tenant/AddTenantTab.jsx";
-import { useTenants } from "../../hooks/useTenants";
-import AddChequeModal from "../../components/tenants/add-tenant/AddChequeModal";
-import AddSecurityModal from "../../components/tenants/add-tenant/AddSecurityModal";
 import ManualTable from "../../components/myTable/ManualTable";
+import AddChequeModal from "../../components/tenants/add-tenant/AddChequeModal";
 import AddLeaseModal from "../../components/tenants/add-tenant/AddLeaseModal";
+import AddSecurityModal from "../../components/tenants/add-tenant/AddSecurityModal";
+import { useTenants } from "../../hooks/useUsers";
 import {
   chequeStatusStyle,
-  leaseStatusStyle,
   formatDateForBackend,
+  leaseStatusStyle,
 } from "../../utils/format";
 // import { chequeStatusStyle, leaseStatusStyle } from "../../utils/format";
-import DatePickerField from "../../components/DatePicker/DatePickerField";
-import { useImages } from "../../hooks/useImages";
-import DeleteModal from "../../components/modal/DeleteModal";
-import { CustomSelect } from "../../components/Common/CustomSelect";
 import { useSelector } from "react-redux";
-import CustomImageUploader from "../../components/img/CustomImageUploader";
+import { CustomSelect } from "../../components/Common/CustomSelect";
+import DatePickerField from "../../components/DatePicker/DatePickerField";
 import CustomImage from "../../components/img/CustomImage";
+import CustomImageUploader from "../../components/img/CustomImageUploader";
+import DeleteModal from "../../components/modal/DeleteModal";
+import AddLeaseDocModal from "../../components/tenants/add-tenant/AddLeaseDocModal";
+import { useBankType } from "../../hooks/useBankType";
+import { useImages } from "../../hooks/useImages";
+import { useLeaseDocumentImages } from "../../hooks/useLeaseImages";
 import { printIcon } from "../../utils/constant/image";
 import {
   ChequeStatuses,
@@ -35,9 +36,6 @@ import {
   FlatStatuses,
   LeaseStatuses,
 } from "../../utils/enums";
-import AddLeaseDocModal from "../../components/tenants/add-tenant/AddLeaseDocModal";
-import { useLeaseDocumentImages } from "../../hooks/useLeaseImages";
-import { useBankType } from "../../hooks/useBankType";
 
 const AddNewTenantOld = () => {
   const { id } = useParams();

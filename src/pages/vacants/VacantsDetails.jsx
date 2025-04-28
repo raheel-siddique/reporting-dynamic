@@ -1,32 +1,27 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import SearchField from "../../components/search/Searchfield";
-import dlticon from "../../assets/dlticon.svg";
-import deactivateIcon from "../../assets/deactivateIcon.svg";
+import { useMemo, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useSelector } from "react-redux";
+import {
+  useLocation,
+  useNavigate,
+  useSearchParams
+} from "react-router-dom";
 import { useDebounce } from "use-debounce";
 import edticon from "../../assets/edticon.svg";
-import { useTenants } from "../../hooks/useTenants";
+import { CustomDropdown } from "../../components/Common/CustomDropdown";
+import FlatListing from "../../components/flat/FlatListing";
+import MyTable from "../../components/myTable/MyTable";
+import Tooltip from "../../components/tooltip/tooltip";
+import { useAdminDashboard } from "../../hooks/useAdminDashboard";
+import { useFlats } from "../../hooks/useFlats";
+import { useMyLocations } from "../../hooks/useMyLocations";
+import { useTenants } from "../../hooks/useUsers";
 import {
   formatAmount,
   formatDate,
   formatPhoneNumber,
 } from "../../utils/format";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import MyTable from "../../components/myTable/MyTable";
-import DeleteModal from "../../components/modal/DeleteModal";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import { useSelector } from "react-redux";
-import Tooltip from "../../components/tooltip/tooltip";
-import { useFlats } from "../../hooks/useFlats";
-import FlatListing from "../../components/flat/FlatListing";
-import { useAdminDashboard } from "../../hooks/useAdminDashboard";
-import { useMyLocations } from "../../hooks/useMyLocations";
-import { CustomDropdown } from "../../components/Common/CustomDropdown";
 
 function VacantDetails({ activeBuilding }) {
   const navigate = useNavigate();

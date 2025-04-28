@@ -1,22 +1,21 @@
-import React, { useMemo, useState } from "react";
-import DummyCard from "../../assets/dummy_card.jpg";
-import TenantBreadcrumb from "../../components/tenants/TenantBreadcrumb";
+import { useMemo, useState } from "react";
+import eyeIcon from "../../assets/eye_icn.svg";
 import MyTable from "../../components/myTable/MyTable";
+import TenantBreadcrumb from "../../components/tenants/TenantBreadcrumb";
 import {
   chequeStatusStyle,
   formatDate,
   leaseStatusStyle,
 } from "../../utils/format";
-import eyeIcon from "../../assets/eye_icn.svg";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useTenants } from "../../hooks/useTenants";
-import DeleteModal from "../../components/modal/DeleteModal";
-import { useImages } from "../../hooks/useImages";
-import { useBankType } from "../../hooks/useBankType";
 import Notifier from "../../components/errors/Notifier";
-import Tooltip from "../../components/tooltip/tooltip";
+import DeleteModal from "../../components/modal/DeleteModal";
 import AddLeaseModal from "../../components/tenants/add-tenant/AddLeaseModal";
+import Tooltip from "../../components/tooltip/tooltip";
+import { useBankType } from "../../hooks/useBankType";
+import { useImages } from "../../hooks/useImages";
+import { useTenants } from "../../hooks/useUsers";
 
 const TenantDetails = () => {
   const [modalOpen, setModalOpen] = useState(false);

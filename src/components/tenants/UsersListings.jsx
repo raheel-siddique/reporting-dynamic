@@ -1,79 +1,53 @@
-import React, { useCallback, useMemo, useState } from "react";
-import SearchField from "../../components/search/Searchfield";
-import dlticon from "../../assets/dlticon.svg";
-import deactivateIcon from "../../assets/deactivateIcon.svg";
-import { useDebounce } from "use-debounce";
-import edticon from "../../assets/edticon.svg";
-import { useTenants } from "../../hooks/useTenants";
-import {
-  formatAmount,
-  formatDate,
-  formatPhoneNumber,
-} from "../../utils/format";
+import { useCallback, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import MyTable from "../../components/myTable/MyTable";
-import DeleteModal from "../../components/modal/DeleteModal";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Tooltip from "../../components/tooltip/tooltip";
+import { useDebounce } from "use-debounce";
+import dlticon from "../../assets/dlticon.svg";
+import edticon from "../../assets/edticon.svg";
+import { useUsers } from "../../hooks/useUsers";
+import {
+  formatDate
+} from "../../utils/format";
+import DeleteModal from "../modal/DeleteModal";
+import MyTable from "../myTable/MyTable";
+import SearchField from "../search/Searchfield";
+import Tooltip from "../tooltip/tooltip";
 
-function TenanstListings({ activeBuilding, selectedDefaultTab }) {
-  const [checkedItems, setCheckedItems] = useState({});
+function UsersListing({  }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDltModal, setShowDltModal] = useState(false);
-  const [tenantDeleteId, setTenantDeleteId] = useState(null);
-  const [isExporting, setIsExporting] = useState(false);
+  const [userDeleteId, setUserDeleteId] = useState(null);
 
   const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
   const [isLoading, setIsLoading] = useState(false);
   const [orderBy, setOrderBy] = useState("Ascending"); // Default to ascending
   const [orderByProperty, setOrderByProperty] = useState("Flat.Number"); // Default to sorting by Name
-  const { hasManagementAccess } = useSelector((state) => state.auth);
 
   const [listingTypeFilter, setListingTypeFilter] =
-    useState(selectedDefaultTab || "All");
-  const [showAlertsOnly, setShowAlertsOnly] = useState(false);
+    useState("All");
 
-  const [tenantDeactivateId, setTenantDeactivateId] = useState(null);
-  const [showDeactivateModal, setShowDeactivateModal] = useState(false);
 
   const {
-    tenantsData,
-    totalCount,
-    isTenantsLoading,
-    deleteTenantMutation,
-    deactivateTenantMutation,
-    fetchAllTenantsExport,
-    tenantsCount,
-  } = useTenants(
-    page,
-    pageSize,
-    debouncedSearchQuery,
-    null,
-    null,
-    null,
-    null,
-    activeBuilding,
-    null,
-    listingTypeFilter,
-    showAlertsOnly,
-    orderBy,
-    orderByProperty
+    usersData,
+    isUsersLoading
+  } = useUsers(
   );
 
-  const handleExport = async () => {
-    try {
-      setIsLoading(true); // Start loader
-      await fetchAllTenantsExport(); // Assuming this is an async function that triggers the export
-    } catch (error) {
-      console.error("Error exporting tenants:", error);
-    } finally {
-      setIsLoading(false); // Stop loader
-    }
-  };
+
+  console.log("users::", usersData)
+  // const handleExport = async () => {
+  //   try {
+  //     setIsLoading(true); // Start loader
+  //     await fetchAllTenantsExport(); // Assuming this is an async function that triggers the export
+  //   } catch (error) {
+  //     console.error("Error exporting tenants:", error);
+  //   } finally {
+  //     setIsLoading(false); // Stop loader
+  //   }
+  // };
 
   const columnToOrderByProperty = {
     id: "Id",
@@ -93,43 +67,46 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
 
   const columns = useMemo(
     () => [
-      { Header: "Apartment no", accessor: "flat.number" },
+      { Header: "First Name", accessor: "firstName" },
+      { Header: "Last Name", accessor: "lastName" },
+      { Header: "Email", accessor: "email" },
+      
 
-      {
-        Header: "Name",
-        accessor: "name",
-        Cell: ({ row }) => (
-          <div className="flex items-center gap-[5px]">
-            {row.original.isNotify && (
-              <span className="w-2 h-2 flex-shrink-0 rounded-full bg-red-500"></span>
-            )}
-            <span>{row.original.name}</span>
-          </div>
-        ),
-      },
+      // {
+      //   Header: "Name",
+      //   accessor: "name",
+      //   Cell: ({ row }) => (
+      //     <div className="flex items-center gap-[5px]">
+      //       {row.original.isNotify && (
+      //         <span className="w-2 h-2 flex-shrink-0 rounded-full bg-red-500"></span>
+      //       )}
+      //       <span>{row.original.name}</span>
+      //     </div>
+      //   ),
+      // },
 
       {
         Header: "Phone",
         accessor: "phone",
-        Cell: ({ row }) => (
-          <span>
-            {formatPhoneNumber(
-              row.original.phone,
-              row.original.phoneCountryCode
-            )}
-          </span>
-        ),
+        // Cell: ({ row }) => (
+        //   <span>
+        //     {formatPhoneNumber(
+        //       row.original.phone,
+        //       row.original.phoneCountryCode
+        //     )}
+        //   </span>
+        // ),
       },
 
+      // {
+      //   Header: "Lease Start",
+      //   accessor: "startDate",
+      //   Cell: ({ row }) => <span>{formatDate(row.original.startDate)}</span>,
+      // },
       {
-        Header: "Lease Start",
-        accessor: "startDate",
-        Cell: ({ row }) => <span>{formatDate(row.original.startDate)}</span>,
-      },
-      {
-        Header: "Lease End",
-        accessor: "endDate",
-        Cell: ({ row }) => <span>{formatDate(row.original.endDate)}</span>,
+        Header: "Date of Birth",
+        accessor: "dob",
+        Cell: ({ row }) => <span>{formatDate(row.original.dob)}</span>,
       },
       // {
       //   Header: "Grace period End Date",
@@ -139,28 +116,28 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
       //   ),
       // },
 
-      { Header: "No Of Days", accessor: "noOfdays" },
+      { Header: "Role", accessor: "role" },
 
-      {
-        Header: "Description",
-        accessor: "description",
-        Cell: ({ row }) => (
-          <span>{row?.original.flat?.description ?? "-"}</span>
-        ),
-      },
+      // {
+      //   Header: "Description",
+      //   accessor: "description",
+      //   Cell: ({ row }) => (
+      //     <span>{row?.original.flat?.description ?? "-"}</span>
+      //   ),
+      // },
 
-      {
-        Header: "Contract Rent",
-        accessor: "annualRentAsPerContract",
-        Cell: ({ row }) => (
-          <span>{formatAmount(row.original.annualRentAsPerContract)}</span>
-        ),
-      },
-      {
-        Header: "Actual Rent",
-        accessor: "actualRent",
-        Cell: ({ row }) => <span>{formatAmount(row.original.actualRent)}</span>,
-      },
+      // {
+      //   Header: "Contract Rent",
+      //   accessor: "annualRentAsPerContract",
+      //   Cell: ({ row }) => (
+      //     <span>{formatAmount(row.original.annualRentAsPerContract)}</span>
+      //   ),
+      // },
+      // {
+      //   Header: "Actual Rent",
+      //   accessor: "actualRent",
+      //   Cell: ({ row }) => <span>{formatAmount(row.original.actualRent)}</span>,
+      // },
 
       {
         Header: "Actions",
@@ -212,19 +189,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
                 </svg>
               </button>
             </Tooltip>
-            {!row.original.isDeActive && hasManagementAccess && (
-              <Tooltip text="Deactivate">
-                <img
-                  className="cursor-pointer"
-                  onClick={() => {
-                    deactivateTenant(row.original.id);
-                  }}
-                  src={deactivateIcon}
-                  alt=""
-                />
-              </Tooltip>
-            )}
-            {hasManagementAccess && (
+            
               <Tooltip text="Delete">
                 <img
                   className="cursor-pointer"
@@ -235,7 +200,6 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
                   alt=""
                 />
               </Tooltip>
-            )}
 
             <Tooltip text="Edit">
               <img
@@ -251,11 +215,11 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
         ),
       },
     ],
-    [checkedItems]
+    []
   );
 
   const deleteMyTenant = (id) => {
-    setTenantDeleteId(id);
+    setUserDeleteId(id);
 
     setShowDltModal(true);
   };
@@ -268,7 +232,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
   const navigate = useNavigate();
 
   const handleAddTenantClick = () => {
-    navigate("/tenants/addnewtenant");
+    navigate("/users/add");
   };
 
   const editMyTenant = (tenantId) => {
@@ -325,10 +289,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
     },
   ];
 
-  const deactivateTenant = (id) => {
-    setTenantDeactivateId(id);
-    setShowDeactivateModal(true);
-  };
+  
 
   return (
     <div className="relative overflow-x-auto sm:rounded-lg bg-white border border-black/10 rounded-lg opacity-100">
@@ -352,7 +313,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
                   >
                     {b.label}
                   </h2>
-                  {tenantsCount && (
+                  {/* {tenantsCount && (
                     <div
                       className={`flex justify-center items-center w-5 h-5 rounded-full p-1 text-[10px] group-hover:text-white text-[#1E1E1E] group-hover:bg-[#32a733]  group-active:bg-[#32a733] group-active:text-white  ${
                         listingTypeFilter === b.value
@@ -362,7 +323,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
                     >
                       {tenantsCount[b.countKey]}
                     </div>
-                  )}
+                  )} */}
                 </button>
               </>
             );
@@ -375,21 +336,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
               searchQuery={searchQuery}
             />
           </div>
-          <button
-            onClick={() => setShowAlertsOnly(!showAlertsOnly)}
-            className={`flex justify-center items-center p-2.5 py-1.5 gap-[5px] h-max text-nowrap rounded-[10px] border border-custom-gray text-[14px] text-[#1E1E1E] hover:bg-custom-gradient-green hover:text-white group ${
-              showAlertsOnly
-                ? "bg-custom-gradient-green border-transparent text-white"
-                : ""
-            }`}
-          >
-            <span
-              className={`w-2 h-2 flex-shrink-0 rounded-full group-hover:bg-white bg-red-500 ${
-                showAlertsOnly ? "bg-white" : ""
-              }`}
-            ></span>
-            Alerts
-          </button>
+         
           <button
             onClick={handleAddTenantClick}
             className="flex justify-center items-center gap-[5px] h-max text-nowrap rounded-[10px] border border-custom-gray  p-2.5 py-1.5 text-[14px] text-[#1E1E1E] hover:bg-custom-gradient-green hover:text-white group"
@@ -434,7 +381,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
             Add
           </button>
           <button
-            onClick={handleExport}
+            // onClick={handleExport}
             className="flex justify-center items-center gap-[6px] h-max text-nowrap rounded-[10px] border border-custom-gray  p-2.5 py-1.5 text-[14px] text-[#1E1E1E] hover:bg-custom-gradient-green hover:text-white group"
             disabled={isLoading} // Disable button while loading
           >
@@ -526,7 +473,7 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
         </div>
       </div>
 
-      {isTenantsLoading ? (
+      {isUsersLoading ? (
         <div className="p-6 table-height">
           {Array.from({ length: pageSize }).map((_, index) => (
             <div key={index} className="mb-4">
@@ -534,15 +481,15 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
             </div>
           ))}
         </div>
-      ) : tenantsData && tenantsData.length > 0 ? (
+      ) : usersData && usersData.length > 0 ? (
         <MyTable
           columns={columns}
-          data={tenantsData}
+          data={usersData}
           page={page}
           pageSize={pageSize}
           setPage={setPage}
           setPageSize={setPageSize}
-          totalCount={totalCount} // Pass total records to ReactTable
+          totalCount={10000} // Pass total records to ReactTable
           pagination={true}
           columnToOrderByProperty={columnToOrderByProperty}
           orderBy={orderBy}
@@ -551,30 +498,21 @@ function TenanstListings({ activeBuilding, selectedDefaultTab }) {
           setOrderByProperty={setOrderByProperty}
         />
       ) : (
-        <div className="p-6">No Tenants found.</div>
+        <div className="p-6">No Users found.</div>
       )}
       {showDltModal && (
         <DeleteModal
           onClose={() => setShowDltModal(!showDltModal)}
-          title={"Are you sure you want to delete this tenant?"}
+          title={"Are you sure you want to delete this user?"}
           setShowDltModal={setShowDltModal}
-          deleteMutation={deleteTenantMutation}
-          deleteId={tenantDeleteId}
+          // deleteMutation={deleteTenantMutation}
+          // deleteId={tenantDeleteId}
         />
       )}
 
-      {showDeactivateModal && (
-        <DeleteModal
-          onClose={() => setShowDeactivateModal(!showDeactivateModal)}
-          title={"Are you sure you want to deactivate this tenant?"}
-          setShowDltModal={setShowDeactivateModal}
-          deleteId={tenantDeactivateId}
-          deleteMutation={deactivateTenantMutation}
-          hideDltIcon={true}
-        />
-      )}
+      
     </div>
   );
 }
 
-export default TenanstListings;
+export default UsersListing;

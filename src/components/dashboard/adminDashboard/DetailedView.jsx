@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import { useMyLocations } from "../../../hooks/useMyLocations";
-import LocationsBreadcrumb from "../../../components/locations/LocationsBreadcrumb";
-import BuildingsListing from "../../../components/buildings/BuildingsListing";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import DetailedViewListings from "./DetailedViewListing";
-import { useAdminDashboard } from "../../../hooks/useAdminDashboard";
-import { useFlats } from "../../../hooks/useFlats";
-import DatePickerField from "../../../components/DatePicker/DatePickerField";
-import { CustomDropdown } from "../../../components/Common/CustomDropdown";
-import { useTenants } from "../../../hooks/useTenants";
-import { ChequeStatuses, LeaseStatuses } from "../../../utils/enums";
 import { useLocation } from "react-router-dom";
+import { CustomDropdown } from "../../../components/Common/CustomDropdown";
+import { useFlats } from "../../../hooks/useFlats";
+import { useMyLocations } from "../../../hooks/useMyLocations";
+import { ChequeStatuses, LeaseStatuses } from "../../../utils/enums";
+import DetailedViewListings from "./DetailedViewListing";
 
 const filterOptions = [
   {

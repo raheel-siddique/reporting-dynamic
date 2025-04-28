@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useDebounce } from "use-debounce";
-import { useTenants } from "../../../hooks/useTenants";
+import { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import MyTable from "../../../components/myTable/MyTable";
-import { generateChequeDepositViewColumns } from "../detailedViewColumns";
+import { useDebounce } from "use-debounce";
 import TabsFilter from "../../../components/Common/TabsFilter";
-import { ChequeStatuses } from "../../../utils/enums";
+import MyTable from "../../../components/myTable/MyTable";
+import { useUsers } from "../../../hooks/useUsers";
 import ExportCSVIcon from "../../../icons/ExportCSVIcon";
+import { ChequeStatuses } from "../../../utils/enums";
 import { exportToCSV, formatDate } from "../../../utils/format";
+import { generateChequeDepositViewColumns } from "../detailedViewColumns";
 
 function DetailedViewListings({
   tabs,
@@ -36,26 +36,9 @@ function DetailedViewListings({
   const chequeFilters =
     selectedFilter === "lease-aging" ? [] : [...selectedTab.key];
 
-  const { chequeData, isChequeLoading, tenantsData, isUpdatingChequeStatus } =
-    useTenants(
-      page,
-      pageSize,
-      null,
-      null,
-      null,
-      chequePage,
-      chequePageSize,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      locationId,
-      buildingId,
-      date,
-      chequeFilters,
-      chequeStatus
+  const { usersData} =
+    useUsers(
+    {}
     );
 
   const handleStatusChange = (e, chequeId) => {

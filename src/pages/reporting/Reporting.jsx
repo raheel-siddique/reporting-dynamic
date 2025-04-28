@@ -1,13 +1,11 @@
-import Cheque from "../activity/Cheque";
-import Lease from "../activity/Lease";
-import React, { useState, useMemo, useCallback } from "react";
-import MyTable from "../../components/myTable/MyTable";
-import { chequeStatusStyle, exportToCSV, formatDate } from "../../utils/format";
-import { useTenants } from "../../hooks/useTenants";
-import { useBankType } from "../../hooks/useBankType";
+import { useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
+import MyTable from "../../components/myTable/MyTable";
 import SearchField from "../../components/search/Searchfield";
+import { useBankType } from "../../hooks/useBankType";
+import { useTenants } from "../../hooks/useUsers";
 import ExportCSVIcon from "../../icons/ExportCSVIcon";
+import { chequeStatusStyle, exportToCSV, formatDate } from "../../utils/format";
 
 const Reporting = () => {
   const [tableOption, settableOption] = useState("Lease");

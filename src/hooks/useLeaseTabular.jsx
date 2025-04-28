@@ -1,15 +1,14 @@
-import { useEffect, useId, useState } from "react";
-import dlticon from "../assets/dlticon.svg";
-import uploadIcon from "../assets/upload.svg";
-import saveicon from "../assets/tick.svg";
-import eyeIcon from "../assets/eye_icn.svg";
-import { formatDate, formatDateForBackend, leaseStatus } from "../utils/format";
-import { toast } from "react-toastify";
-import { useTenants } from "./useTenants";
 import { useSelector } from "react-redux";
-import { useLeaseDocumentImages } from "./useLeaseImages";
+import { toast } from "react-toastify";
+import dlticon from "../assets/dlticon.svg";
+import eyeIcon from "../assets/eye_icn.svg";
+import saveicon from "../assets/tick.svg";
+import uploadIcon from "../assets/upload.svg";
 import Notifier from "../components/errors/Notifier";
 import Tooltip from "../components/tooltip/tooltip";
+import { formatDate, formatDateForBackend, leaseStatus } from "../utils/format";
+import { useLeaseDocumentImages } from "./useLeaseImages";
+import { useUsers } from "./useUsers";
 
 export const useLeaseTabular = (
   tenantId,
@@ -20,8 +19,8 @@ export const useLeaseTabular = (
   handleLeaseDocuments = () => {},
   viewLease = () => {}
 ) => {
-  const { updateLeaseMutation, deleteLeaseMutation, addLeaseMutation } =
-    useTenants();
+  const { usersData } =
+    useUsers();
 
   const { documentPaths } = useLeaseDocumentImages();
 
