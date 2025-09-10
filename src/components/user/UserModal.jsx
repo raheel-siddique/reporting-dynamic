@@ -19,6 +19,8 @@ const UserModal = ({
   const [dialCode, setDialCode] = useState(null);
 
   const handleSubmit = (formValues) => {
+
+    console.log("formValues::", formValues)
     try {
       if (selectedUser) {
         editUserMutation({
@@ -44,11 +46,11 @@ const UserModal = ({
   };
 
   let initialValues = {
-    fullName: selectedUser ? selectedUser.fullName : "",
+    username: selectedUser ? selectedUser.username : "",
     email: selectedUser ? selectedUser.email : "",
-    phoneNumber: selectedUser ? selectedUser.phoneNumber : "",
-    roles: selectedUser ? [...selectedUser.roles] : [],
-    isActive: selectedUser ? selectedUser.isActive : true,
+    phone: selectedUser ? selectedUser.phone : "",
+    role: selectedUser ? selectedUser.role : "",
+    // isActive: selectedUser ? selectedUser.isActive : true,
   };
 
   if (!selectedUser) {
@@ -69,8 +71,8 @@ const UserModal = ({
   };
 
   const options = [
-    { value: "Admin", label: "Admin" },
-    { value: "User", label: "User" },
+    { value: "ADMIN", label: "Admin" },
+    { value: "USER", label: "User" },
   ];
 
   return (
@@ -106,17 +108,17 @@ const UserModal = ({
                         {/* Full Name */}
                         <div className="w-1/2">
                           <label
-                            htmlFor="fullName"
+                            htmlFor="username"
                             className="text-[13px] text-[#1E1E1E] font-medium"
                           >
-                            Full Name
+                            User Name
                           </label>
                           <ReusableInput
                             inpType="text"
-                            inpName="fullName"
+                            inpName="username"
                             inpPlaceholder="Enter Full Name"
                           />
-                          {getErrorMessageField({ name: "fullName" })}
+                          {getErrorMessageField({ name: "username" })}
                         </div>
 
                         {/* Email */}
@@ -141,10 +143,10 @@ const UserModal = ({
                         {/* Phone */}
                         <div className="w-1/2">
                           <PhoneInputField
-                            name="phoneNumber"
-                            value={values.phoneNumber}
-                            onChange={(phoneNumber, countryData) => {
-                              setFieldValue("phoneNumber", phoneNumber);
+                            name="phone"
+                            value={values.phone}
+                            onChange={(phone, countryData) => {
+                              setFieldValue("phone", phone);
                               setDialCode(countryData.countryCode);
                             }}
                           />
@@ -176,22 +178,22 @@ const UserModal = ({
 
                         <div className="custom-select mt-5 relative">
                           <Field
-                            name="roles"
+                            name="role"
                             component={CustomSelect}
                             options={options}
-                            isMulti={true} // Enabling multiple selections
+                            isMulti={false} // Enabling multiple selections
                           />
                           {/* Displaying Errors */}
-                          {errors.roles && touched.roles && (
+                          {errors.role && touched.role && (
                             <div className="text-red-500 text-sm mt-1">
-                              {errors.roles}
+                              {errors.role}
                             </div>
                           )}
                         </div>
-
+{/* 
                         <div className="flex mt-3 items-center">
                           <CustomCheckbox name="isActive" label="Active" />
-                        </div>
+                        </div> */}
                       </div>
 
                       {/* Buttons */}

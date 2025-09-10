@@ -90,7 +90,7 @@ const sidebarItems = [
   },
   {
     id: 3,
-    name: "Expenses",
+    name: "Cloud Configuration",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -178,11 +178,11 @@ const sidebarItems = [
         </g>
       </svg>
     ),
-    path: "/expenses",
+    path: "/cloud-configuration",
   },
   {
     id: 4,
-    name: "Receipts",
+    name: "Instances",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +210,40 @@ const sidebarItems = [
         </g>
       </svg>
     ),
-    path: "/receipts",
+    path: "/instances",
+  },
+
+  {
+    id: 41,
+    name: "Volumes",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15.79"
+        height="19.79"
+        viewBox="0 0 15.79 19.79"
+      >
+        <g
+          id="Group_25547"
+          data-name="Group 25547"
+          transform="translate(-2085.96 -1809.25)"
+        >
+          <path
+            id="Path_38715"
+            className="group-hover:stroke-custom-green stroke-white"
+            data-name="Path 38715"
+            d="M5,21V5A2,2,0,0,1,7,3H17a2,2,0,0,1,2,2V21l-3-2-2,2-2-2-2,2L8,19,5,21M9,7h6M9,11h6m-2,4h2"
+            transform="translate(2082 1807)"
+            fill="none"
+            stroke="#23ae24"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+        </g>
+      </svg>
+    ),
+    path: "/volumes",
   },
 
   {

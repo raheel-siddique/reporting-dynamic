@@ -4,13 +4,13 @@ export const fetchUsers = async ({ queryKey }) => {
   try {
     const [, { page, pageSize, search, orderBy, orderByProperty }] = queryKey;
 
-    const response = await axiosInstance.get("/api/User", {
+    const response = await axiosInstance.get("/auth/users", {
       params: {
-        page,
-        pageSize: 100000,
-        search,
-        orderBy,
-        orderByProperty,
+        // page,
+        // pageSize: 100000,
+        // search,
+        // orderBy,
+        // orderByProperty,
       },
     });
     return response;
@@ -31,7 +31,7 @@ export const deleteFlat = async (flatId) => {
 
 export const addUser = async (userData) => {
   try {
-    const response = await axiosInstance.post("/api/User", userData);
+    const response = await axiosInstance.post("/auth/register", userData);
     return response.data;
   } catch (error) {
     throw error;

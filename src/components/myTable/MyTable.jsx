@@ -18,22 +18,23 @@ const MyTable = ({
   setPageSize,
   totalCount,
   pagination,
-  columnToOrderByProperty, // Optional prop for mapping column IDs to backend properties
-  orderBy, // Current sorting order ('Ascending' or 'Descending')
-  setOrderBy, // Function to update the sorting order
-  orderByProperty, // Current backend property used for sorting
-  setOrderByProperty, // Function to update the backend property for sorting
+  columnToOrderByProperty,
+  orderBy,
+  setOrderBy,
+  orderByProperty,
+  setOrderByProperty,
   seeMoreColumns = [],
 }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
 
   const totalPages = Math.ceil(totalCount / pageSize);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const allSelected = selectedRows.length === rows.length && rows.length > 0;
 
   const handleFirstPage = () => setPage(1);
   const handleLastPage = () => setPage(totalPages);
-  const handleNextPage = () =>
-    setPage((prev) => Math.min(prev + 1, totalPages));
+  const handleNextPage = () => setPage((prev) => Math.min(prev + 1, totalPages));
   const handlePrevPage = () => setPage((prev) => Math.max(prev - 1, 1));
 
   const handlePageSizeChange = (selected) => {
@@ -41,163 +42,164 @@ const MyTable = ({
     setPage(1);
   };
 
-  const [selectedRows, setSelectedRows] = useState([]);
-  const allSelected = selectedRows.length === rows.length && rows.length > 0;
-
   return (
-    <>
-      <div className="table-height">
-        <table
-          {...getTableProps()}
-          className="w-full text-sm text-left rtl:text-right text-gray-500"
-        >
-          <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-[#f8f8f8]">
-            {headerGroups.map((headerGroup, index) => (
-              <tr key={index} {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps()}
-                    className={` ${
-                      column.id === "name" && column.id === "#"
-                        ? "w-[65px]"
-                        : ""
-                    } py-3 text-[14px] text-[#1E1E1E] opacity-[0.5] font-[600] cursor-pointer`}
-                    onClick={() => {
-                      // Apply sorting logic only if columnToOrderByProperty is provided
-                      if (columnToOrderByProperty) {
-                        const property = columnToOrderByProperty[column.id]; // Map column ID to backend property
-                        if (property) {
-                          const isAsc =
-                            orderBy === "Ascending" &&
-                            orderByProperty === property;
-                          setOrderBy(isAsc ? "Descending" : "Ascending");
-                          setOrderByProperty(property); // Update backend property
-                        }
-                      }
-                    }}
-                  >
-                    <div className="flex normal-case flex-nowrap px-4">
-                      {column.render("Header")}
+  <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-md bg-white">
+  <table
+    {...getTableProps()}
+    className="w-full text-md text-left text-gray-700"
+  >
 
-                      {column.id !== "actions" && ( // Skip rendering the sort icon for the "Actions" column
-                        <img
-                          className="pl-3"
-                          src={
-                            columnToOrderByProperty &&
-                            columnToOrderByProperty[column.id] ===
-                              orderByProperty
-                              ? orderBy === "Ascending"
-                                ? upArrow // Ascending icon
-                                : downArrow // Descending icon
-                              : updownarrow // Default up-down icon
-                          }
-                          alt="Sort Icon"
-                        />
-                      )}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()} className="bg-[#FFFFFF]">
-            {rows.map((row) => {
-              prepareRow(row);
-              const isSelected = selectedRows.includes(row.id);
+        {/* ===== Table Header ===== */}
+        <thead className="sticky top-0 bg-gray-50 border-b border-gray-200 shadow-sm z-10">
+          {headerGroups.map((headerGroup, index) => (
+            <tr key={index} {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+               <th
+  {...column.getHeaderProps()}
+  onClick={() => {
+    if (columnToOrderByProperty) {
+      const property = columnToOrderByProperty[column.id];
+      if (property) {
+        const isAsc =
+          orderBy === "Ascending" && orderByProperty === property;
+        setOrderBy(isAsc ? "Descending" : "Ascending");
+        setOrderByProperty(property);
+      }
+    }
+  }}
+  className={`px-6 py-4 text-md font-semibold text-gray-700 uppercase tracking-wider 
+    cursor-pointer select-none group whitespace-nowrap`}
+>
+  <div className="flex items-center gap-2">
+    {column.render("Header")}
+    {column.id !== "actions" && (
+      <img
+        className="w-3 h-3 opacity-50 group-hover:opacity-100 transition"
+        src={
+          columnToOrderByProperty &&
+          columnToOrderByProperty[column.id] === orderByProperty
+            ? orderBy === "Ascending"
+              ? upArrow
+              : downArrow
+            : updownarrow
+        }
+        alt="Sort Icon"
+      />
+    )}
+  </div>
+</th>
 
-              return (
-                <tr {...row.getRowProps()} className="border-b">
-                  {row.cells.map((cell) => {
-                    if (
-                      cell.column.Header.toLowerCase() === "description" ||
-                      seeMoreColumns.includes(cell.column.Header)
-                    ) {
-                      // Custom rendering for the description cell
-                      return (
-                        <td
-                          {...cell.getCellProps()}
-                          className="py-4 text-[14px] text-[#1E1E1E] min-w-[150px] w-[150px] px-4"
-                        >
-                          <DescriptionCell content={cell.value} />
-                        </td>
-                      );
-                    }
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                        className={`px-0 py-4 text-[14px] text-[#1E1E1E] px-4`}
-                      >
-                        {cell.value !== undefined && cell.value !== null
-                          ? cell.render("Cell")
-                          : cell.column.Header.toLowerCase() === "actions"
-                          ? cell.render("Cell")
-                          : "-"}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </tr>
+          ))}
+        </thead>
 
-        {pagination && (
-          <div className="self-end flex-wrap mt-16 pr-10 pb-2 sticky bottom-0 bg-white flex items-center justify-end gap-8">
-            <div className="flex items-center gap-4 whitespace-nowrap">
-              <span className="text-[13px] text-[#000000]">
-                Items per page:
-              </span>
-              <Dropdown
-                items={[
-                  { label: "5", value: 5 },
-                  { label: "10", value: 10 },
-                  { label: "20", value: 20 },
-                  { label: "30", value: 30 },
-                  { label: "50", value: 50 },
-                ]}
-                initialValue={{ label: String(pageSize), value: pageSize }}
-                onSelect={handlePageSizeChange}
-                className="w-[76px]"
-              />
-            </div>
-            <span className="text-[13px] text-[#000000] whitespace-nowrap">
-              {(page - 1) * pageSize + 1} -{" "}
-              {Math.min(page * pageSize, totalCount)} of {totalCount}
-            </span>
-            <div className="flex items-center gap-7">
-              <button
-                onClick={handleFirstPage}
-                disabled={page === 1}
-                className="disabled:opacity-50"
-              >
-                <img src={doubleArrow} alt="First Page" />
-              </button>
-              <button
-                onClick={handlePrevPage}
-                disabled={page === 1}
-                className="disabled:opacity-50"
-              >
-                <img src={singleArrow} alt="Previous Page" />
-              </button>
-              <button
-                onClick={handleNextPage}
-                disabled={page === totalPages}
-                className="disabled:opacity-50"
-              >
-                <img src={nextArrow} alt="Next Page" />
-              </button>
-              <button
-                onClick={handleLastPage}
-                disabled={page === totalPages}
-                className="disabled:opacity-50"
-              >
-                <img src={lastArrow} alt="Last Page" />
-              </button>
-            </div>
+        {/* ===== Table Body ===== */}
+        {/* ===== Table Body ===== */}
+<tbody {...getTableBodyProps()}>
+  {rows.length === 0 ? (
+    <tr>
+      <td
+        colSpan={columns.length}
+        className="py-10 text-center text-gray-400"
+      >
+        No data available
+      </td>
+    </tr>
+  ) : (
+    rows.map((row, rowIndex) => {
+      prepareRow(row);
+      return (
+      <tr
+  {...row.getRowProps()}
+  className={`border-b last:border-none transition 
+    ${rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"} 
+    hover:bg-gray-100/70`}
+>
+  {row.cells.map((cell) => {
+    const value =
+      cell.value !== undefined && cell.value !== null
+        ? cell.render("Cell")
+        : cell.column.Header.toLowerCase() === "actions"
+        ? cell.render("Cell")
+        : "-";
+
+    return (
+      <td
+        {...cell.getCellProps()}
+        className="px-6 py-4 text-lg text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis max-w-[520px]"
+        title={typeof cell.value === "string" ? cell.value : ""}
+      >
+        {value}
+      </td>
+    );
+  })}
+</tr>
+
+      );
+    })
+  )}
+</tbody>
+
+      </table>
+
+      {/* ===== Pagination Bar ===== */}
+      {pagination && (
+        <div className="flex flex-wrap items-center justify-between gap-4 px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <div className="flex items-center gap-3">
+            <span className="text-md text-gray-700">Items per page:</span>
+            <Dropdown
+              items={[
+                { label: "5", value: 5 },
+                { label: "10", value: 10 },
+                { label: "20", value: 20 },
+                { label: "30", value: 30 },
+                { label: "50", value: 50 },
+              ]}
+              initialValue={{ label: String(pageSize), value: pageSize }}
+              onSelect={handlePageSizeChange}
+              className="w-[80px]"
+            />
           </div>
-        )}
-      </div>
-    </>
+
+          <span className="text-md text-gray-600">
+            {(page - 1) * pageSize + 1} -{" "}
+            {Math.min(page * pageSize, totalCount)} of {totalCount}
+          </span>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleFirstPage}
+              disabled={page === 1}
+              className="p-2 rounded hover:bg-gray-200 disabled:opacity-50"
+            >
+              <img src={doubleArrow} alt="First" className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handlePrevPage}
+              disabled={page === 1}
+              className="p-2 rounded hover:bg-gray-200 disabled:opacity-50"
+            >
+              <img src={singleArrow} alt="Previous" className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={page === totalPages}
+              className="p-2 rounded hover:bg-gray-200 disabled:opacity-50"
+            >
+              <img src={nextArrow} alt="Next" className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleLastPage}
+              disabled={page === totalPages}
+              className="p-2 rounded hover:bg-gray-200 disabled:opacity-50"
+            >
+              <img src={lastArrow} alt="Last" className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

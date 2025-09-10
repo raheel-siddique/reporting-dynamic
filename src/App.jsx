@@ -20,14 +20,17 @@ import DetailedView from "./components/dashboard/adminDashboard/DetailedView";
 import Cheque from "./pages/activity/Cheque";
 import Lease from "./pages/activity/Lease";
 import Dashboard from "./pages/dashboard/Dashboard";
-import Expenses from "./pages/expenses/Expenses";
+import Expenses from "./pages/cloud/CloudConfiguration";
 import Parameters from "./pages/parameters/Parameters";
-import Receipts from "./pages/receipts/Receipts";
 import Reporting from "./pages/reporting/Reporting";
 import AddNewTenant from "./pages/tenants/AddNewTenants";
 import TenantDetails from "./pages/tenants/TenantDetails";
 import UserManagement from "./pages/user/UserManagement";
 import VacantDetails from "./pages/vacants/VacantsDetails";
+import CloudConfiguration from "./pages/cloud/CloudConfiguration";
+import Instances from "./pages/instances/Instances";
+import InstantDetails from "./pages/instances/InstanceDetails";
+
 
 // Create a QueryClient with default options
 const queryClient = new QueryClient({
@@ -180,18 +183,37 @@ function App() {
               />
 
               <Route
-                path="/expenses"
+                path="/cloud-configuration"
                 element={
                   <ProtectedRoute>
-                    <Expenses />
+                    <CloudConfiguration />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/receipts"
+                path="/instances"
                 element={
                   <ProtectedRoute>
-                    <Receipts />
+                    <Instances />
+                  </ProtectedRoute>
+                }
+              />
+
+
+               <Route
+                path="/instances/:id"
+                element={
+                  <ProtectedRoute>
+                    <InstantDetails />
+                  </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/volumes"
+                element={
+                  <ProtectedRoute>
+                    <Instances />
                   </ProtectedRoute>
                 }
               />
@@ -204,6 +226,8 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+
               <Route
                 path="/"
                 element={

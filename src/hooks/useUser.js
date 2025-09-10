@@ -5,11 +5,11 @@ import { addUser, fetchUsers, editUser } from "../api/userService";
 import { QueryKeys } from "../utils/queryKeys";
 
 export const useUser = ({
-  page = 1,
-  pageSize = 10,
-  search = "",
-  orderBy,
-  orderByProperty,
+  // page = 1,
+  // pageSize = 10,
+  // search = "",
+  // orderBy,
+  // orderByProperty,
 }) => {
   const queryClient = useQueryClient();
 
@@ -17,11 +17,11 @@ export const useUser = ({
     queryKey: [
       QueryKeys.USERS,
       {
-        page,
-        pageSize,
-        search,
-        orderBy,
-        orderByProperty,
+        // page,
+        // pageSize,
+        // search,
+        // orderBy,
+        // orderByProperty,
       },
     ],
     queryFn: fetchUsers,
@@ -80,7 +80,7 @@ export const useUser = ({
   // }, [data]);
 
   return {
-    users: users?.data,
+    users: users?.data?.body?.userList,
     isUsersLoading,
     addUserMutation,
     editUserMutation,

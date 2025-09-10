@@ -7,8 +7,8 @@ function generateUserColumns({ selectUser }) {
     { Header: "User Id", accessor: "id" },
     {
       Header: "Full Name",
-      accessor: "fullName",
-      Cell: ({ row }) => <span>{row.original.fullName}</span>,
+      accessor: "username",
+      Cell: ({ row }) => <span>{row.original.username}</span>,
     },
     {
       Header: "Email",
@@ -17,7 +17,7 @@ function generateUserColumns({ selectUser }) {
     },
     {
       Header: "Phone",
-      accessor: "phoneNumber",
+      accessor: "phone",
       Cell: ({ row }) => (
         <span>
           {formatPhoneNumber(
@@ -29,29 +29,29 @@ function generateUserColumns({ selectUser }) {
     },
     {
       Header: "Role",
-      accessor: "roles",
+      accessor: "role",
       Cell: ({ row }) => (
         <span>
-          {Array.isArray(row.original.roles)
-            ? row.original.roles.join(", ")
-            : row.original.roles}
+          {Array.isArray(row.original.role)
+            ? row.original.role.join(", ")
+            : row.original.role}
         </span>
       ),
     },
 
-    {
-      Header: "Status",
-      accessor: "isActive",
-      Cell: ({ row }) => {
-        const isActive = row.original.isActive;
-        // console.log("acitve", isActive, row.original);
-        return (
-          <span className={`rounded-md text-[14px]`}>
-            {isActive === true ? "Active" : "Inactive"} {/* Explicit check */}
-          </span>
-        );
-      },
-    },
+    // {
+    //   Header: "Status",
+    //   accessor: "isActive",
+    //   Cell: ({ row }) => {
+    //     const isActive = row.original.isActive;
+    //     // console.log("acitve", isActive, row.original);
+    //     return (
+    //       <span className={`rounded-md text-[14px]`}>
+    //         {isActive === true ? "Active" : "Inactive"} {/* Explicit check */}
+    //       </span>
+    //     );
+    //   },
+    // },
     {
       Header: "Actions",
       accessor: "actions",

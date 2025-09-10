@@ -2,13 +2,13 @@ import * as Yup from "yup";
 
 // Define the common fields
 const baseUserSchema = {
-  fullName: Yup.string().required("Name is required"),
+  username: Yup.string().required("Name is required"),
   email: Yup.string().email("Enter valid email").required("Email is required"),
-  phoneNumber: Yup.string().required("Phone No. is required"),
-  roles: Yup.array()
-    .of(Yup.string())
-    .min(1, "Roles must have at least one element")
-    .required("Roles is required"),
+   phone: Yup.string().required("Phone No. is required"),
+  // role: Yup.array()
+  //   .of(Yup.string())
+  //   .min(1, "Roles must have at least one element")
+  //   .required("Roles is required"),
 };
 
 // Add User Schema (extends base and adds password)

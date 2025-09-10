@@ -30,6 +30,9 @@ const UserManagement = () => {
     orderByProperty,
   });
 
+
+
+  console.log("users:::", users)
   useEffect(() => {
     if (selectedUser) {
       openModal(true);
