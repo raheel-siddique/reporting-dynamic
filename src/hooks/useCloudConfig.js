@@ -69,11 +69,12 @@ export const useCloudConfig = (
   });
 
 
-    const { mutate: addAgent} = useMutation({
+    const { mutateAsync: addAgent} = useMutation({
       mutationFn: addAgentServ,
       onSuccess: () => {
         toast.success("agent added successfully!", { position: "top-center" });
-        queryClient.invalidateQueries([QueryKeys.USERS]);
+              queryClient.invalidateQueries(["clouds"]);
+
       },
       onError: (error) => {
         console.error("Failed to add agent:", error);

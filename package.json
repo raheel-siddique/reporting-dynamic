@@ -20,6 +20,7 @@
     "date-fns": "^4.1.0",
     "f": "^1.4.0",
     "formik": "^2.4.6",
+    "framer-motion": "^12.23.12",
     "html2canvas": "^1.4.1",
     "jwt-decode": "^4.0.0",
     "libphonenumber-js": "^1.11.20",
