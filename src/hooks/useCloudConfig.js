@@ -25,8 +25,8 @@ export const useCloudConfig = (
      
     ],
     queryFn: fetchInstances,
-    keepPreviousData: true,
-    staleTime: 5000,
+    // keepPreviousData: true,
+    // staleTime: 5000,
   });
 
 

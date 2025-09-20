@@ -52,32 +52,32 @@ function generateUserColumns({ selectUser }) {
     //     );
     //   },
     // },
-    {
-      Header: "Actions",
-      accessor: "actions",
-      Cell: ({ row }) => (
-        <div className="flex gap-[20px]">
-          {/* <img className="cursor-pointer" src={dlticon} alt="Delete" /> */}
-          <img
-            className="cursor-pointer"
-            onClick={() => {
-              const { id, fullName, email, phoneNumber, roles, isActive } =
-                row.original;
-              selectUser({
-                id,
-                fullName,
-                email,
-                phoneNumber,
-                roles,
-                isActive,
-              });
-            }}
-            src={edticon}
-            alt="Edit"
-          />
-        </div>
-      ),
-    },
+    // {
+    //   Header: "Actions",
+    //   accessor: "actions",
+    //   Cell: ({ row }) => (
+    //     <div className="flex gap-[20px]">
+    //       {/* <img className="cursor-pointer" src={dlticon} alt="Delete" /> */}
+    //       <img
+    //         className="cursor-pointer"
+    //         onClick={() => {
+    //           const { id, fullName, email, phoneNumber, roles, isActive } =
+    //             row.original;
+    //           selectUser({
+    //             id,
+    //             fullName,
+    //             email,
+    //             phoneNumber,
+    //             roles,
+    //             isActive,
+    //           });
+    //         }}
+    //         src={edticon}
+    //         alt="Edit"
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
 
   return columns;

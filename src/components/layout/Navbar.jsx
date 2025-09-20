@@ -1,9 +1,10 @@
+import { useLocation } from "react-router-dom";
 import { useCloudConfig } from "../../hooks/useCloudConfig";
 import React, { useState } from "react";
 
 export default function Navbar({ user }) {
   const { addAgent } = useCloudConfig();
-
+const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [responseData, setResponseData] = useState([]);
@@ -40,19 +41,28 @@ const handleSubmit = async (e) => {
     ? Array.from(new Set(responseData.flatMap((row) => Object.keys(row))))
     : [];
 
+     const getPageName = () => {
+    const path = location.pathname; // e.g. "/orders"
+    const parts = path.split("/").filter(Boolean); // ["orders"]
+    if (parts.length === 0) return "Dashboard"; // default
+    return parts[parts.length - 1]
+      .replace(/-/g, " ") // agar slug me - ho to space bana do
+      .replace(/\b\w/g, (c) => c.toUpperCase()); // Capitalize words
+  };
+
   return (
     <>
       {/* Header */}
       <header className="relative p-[13px] border-b bg-white border-gray-200 shadow-sm">
         <div className="flex justify-between items-center">
           <div className="text-xl leading-5 text-black font-semibold">
-            Dashboard
+             {getPageName()}
           </div>
 
           <div className="flex gap-5 items-center">
             <button
               onClick={toggleModal}
-              className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition shadow-md"
+              className="px-6 py-2.5 bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 text-white font-semibold rounded-xl hover:shadow-lg hover:opacity-95 transition shadow-md disabled:opacity-50"
             >
               ⚡ AI Agent
             </button>
@@ -69,7 +79,7 @@ const handleSubmit = async (e) => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 px-4">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-6xl p-10 relative animate-scaleIn border border-yellow-200">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-10 relative animate-scaleIn border border-yellow-200">
             {/* Close Button */}
             <button
               onClick={toggleModal}

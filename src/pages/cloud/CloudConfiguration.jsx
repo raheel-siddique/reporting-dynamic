@@ -28,22 +28,24 @@ export default function CloudConfiguration() {
     label: providers?.name,
   }));
 
+console.log('userss',users)
+
   const userOptions = users?.map((u) => ({
-    value: u.username,
+    value: u.id,
     label: u.username,
   }));
 
-  const regionOptions = regionsData?.map((r) => ({
-    value: r?.name,
-    label: r?.displayName,
-  }));
+  // const regionOptions = regionsData?.map((r) => ({
+  //   value: r?.name,
+  //   label: r?.displayName,
+  // }));
 
-  // const regionOptions = [
-  //   { value: "us-east-1", label: "US East (N. Virginia)" },
-  //   { value: "us-west-1", label: "US West (N. California)" },
-  //   { value: "ap-south-1", label: "Asia Pacific (Mumbai)" },
-  //   { value: "eu-central-1", label: "Europe (Frankfurt)" },
-  // ];
+  const regionOptions = [
+    { value: "us-east-1", label: "US East (N. Virginia)" },
+    { value: "us-west-1", label: "US West (N. California)" },
+    { value: "ap-south-1", label: "Asia Pacific (Mumbai)" },
+    { value: "eu-central-1", label: "Europe (Frankfurt)" },
+  ];
 
   const validationSchema = Yup.object({
     provider: Yup.string().required("Provider is required"),
@@ -166,7 +168,7 @@ export default function CloudConfiguration() {
         <button
           type="submit"
           disabled={isAddingConfig}
-          className="bg-blue-600 hover:bg-blue-700 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium px-6 py-2 rounded-lg shadow-sm transition-all flex items-center gap-2"
+          className="px-6 py-2.5 bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 text-white font-semibold rounded-xl hover:shadow-lg hover:opacity-95 transition shadow-md disabled:opacity-50"
         >
           {isAddingConfig ? (
             <div className="flex items-center gap-2">
