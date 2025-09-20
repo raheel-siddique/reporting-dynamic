@@ -131,12 +131,12 @@ function Sidebar() {
     >
       {/* Logo + Toggle */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-yellow-500/30">
-        <motion.img
+        {/* <motion.img
           src={brLogo}
           alt="Logo"
           animate={{ width: collapsed ? 36 : 80 }}
           className="transition-all duration-300"
-        />
+        /> */}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="p-2 rounded-md hover:bg-[#1a1a1a] text-gray-400 hover:text-yellow-400 transition-colors"
